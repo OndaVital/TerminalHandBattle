@@ -3,7 +3,11 @@ package org.academiadecodigo.vimdiesels.handgame;
 
 class Game {
 
-    private static int compareHands(GameHand handPlayer1, GameHand handPlayer2) {
+    public static int compareHands(GameHand handPlayer1, GameHand handPlayer2) {
+
+        if (handPlayer1.equals(handPlayer2)){
+            return 0;
+        }
 
         int winner = 1;
 
