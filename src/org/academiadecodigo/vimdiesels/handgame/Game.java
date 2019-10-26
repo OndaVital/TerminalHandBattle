@@ -6,7 +6,7 @@ class Game {
     public static int compareHands(GameHand handPlayer1, GameHand handPlayer2) {
 
         if (handPlayer1.equals(handPlayer2)){
-            return 0;
+            return 3;
         }
 
         int winner = 1;

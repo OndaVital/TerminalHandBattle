@@ -2,12 +2,8 @@ package org.academiadecodigo.vimdiesels.handgame;
 
 import org.academiadecodigo.bootcamp.Prompt;
 import org.academiadecodigo.bootcamp.scanners.menu.MenuInputScanner;
-import org.academiadecodigo.bootcamp.scanners.string.StringInputScanner;
 
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.PrintStream;
+import java.io.*;
 import java.net.Socket;
 
 public class Player implements Runnable {
@@ -15,15 +11,22 @@ public class Player implements Runnable {
 
     private int rounds;
     private String name;
+    private Server server;
     private Socket socket;
     private Prompt prompt;
+    private PrintWriter writer;
+    private BufferedReader reader;
 
 
-    public Player(int rounds, Socket socket) throws IOException {
+
+    public Player(int rounds, Server server, Socket socket) throws IOException {
 
         this.rounds = rounds;
+        this.server = server;
         this.socket = socket;
         this.prompt = new Prompt(socket.getInputStream(), new PrintStream(socket.getOutputStream()));
+        this.reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        this.writer = new PrintWriter(socket.getOutputStream());
     }
 
     public String getName() {
@@ -31,20 +34,25 @@ public class Player implements Runnable {
         return this.name;
     }
 
-    private void setName(String name){
+    private void setName(String name) {
 
         this.name = name;
     }
 
-    private void chooseName(){
+    private void chooseName() throws IOException {
 
-        StringInputScanner user = new StringInputScanner();
-        user.setMessage("Tell me your name: ");
-        String userName = prompt.getUserInput(user);
-        setName(userName);
+        String welcomeMsg = "\n--------------- Welcome to Rock, Paper, " +
+                "Scissors, Lizard, Spock -----------------\n";
+        String tellName = "Tell me your name: ";
+
+        writer.println(welcomeMsg);
+        writer.flush();
+        writer.println(tellName);
+        writer.flush();
+        this.name = reader.readLine();
     }
 
-    private int menu(){
+    private int menu() {
 
         String[] gameOptions = {"Single-player", "Multi-player", "See instructions"};
         MenuInputScanner menu = new MenuInputScanner(gameOptions);
@@ -53,18 +61,29 @@ public class Player implements Runnable {
         return playMode;
     }
 
-    private void getHand() throws IOException {
+    public void giveSingle() throws IOException {
 
-        String[] gameHands = {"Paper", "Rock", "Scisors", "Lizard", "Spock"};
+        String[] gameHands = {"Paper", "Rock", "Scissors", "Lizard", "Spock"};
         MenuInputScanner hands = new MenuInputScanner(gameHands);
         hands.setMessage("Pick a hand!");
+
         int value = prompt.getUserInput(hands);
-        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-        writer.write(value);
-        writer.flush();
+        server.singleCompareHands(value);
     }
 
-    private void instructions(){
+
+    private void giveMultiHand() throws IOException {
+
+        String[] gameMultiHands = {"Paper", "Rock", "Scissors", "Lizard", "Spock"};
+        MenuInputScanner hands = new MenuInputScanner(gameMultiHands);
+        hands.setMessage("Pick a hand!");
+
+        int value = prompt.getUserInput(hands);
+        server.handStorer(this, value);
+
+    }
+
+    private void instructions() {
 
         String instructions = "";
         String[] menuInstructions = {"Go back."};
@@ -72,31 +91,70 @@ public class Player implements Runnable {
         menu.setMessage(instructions);
         int goBack = prompt.getUserInput(menu);
 
-        if(goBack == 1){
+        if (goBack == 1) {
             menu();
         }
+    }
+
+
+    public void sendMessage(String message) throws IOException {
+        BufferedWriter writer = new BufferedWriter(
+                new OutputStreamWriter(socket.getOutputStream()));
+        writer.write(message);
+        writer.flush();
     }
 
     @Override
     public void run() {
 
-        chooseName();
+
+        try {
+            chooseName();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
         int menuAnswer = menu();
 
-        if(menuAnswer == 1){}
-
-        if(menuAnswer == 2){
+        if (menuAnswer == 1) {
 
             try {
-                getHand();
 
+                int cycles = 0;
+
+                while (cycles<rounds) {
+                    giveSingle();
+                    cycles++;
+                }
+                server.singleCompareHands(0);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
         }
-        if(menuAnswer == 3){
+
+        if (menuAnswer == 2) {
+
+            try {
+
+                int cycles = 0;
+
+                while (cycles<rounds) {
+                    giveMultiHand();
+                    cycles++;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if (menuAnswer == 3) {
             instructions();
         }
     }
+
+
+
+
 }
+

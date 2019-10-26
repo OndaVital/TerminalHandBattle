@@ -1,19 +1,28 @@
 package org.academiadecodigo.vimdiesels.handgame;
 
 
-import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Server {
 
     private static int ROUNDS = 5;
+    int player1Wins = 0;
+    int player2Wins = 0;
+
     private ServerSocket serverSocket;
-    private Player player1;
-    private Player player2;
+    private Player player;
+
     private static int DEFAULT_PORT = 9090;
+    private Socket socket1;
+    private Socket socket2;
+    private final List<Player> playersList = Collections.synchronizedList(new ArrayList<>());
+    private Player[] players;
+    private int[] values;
 
     public static void main(String[] args) throws IOException {
 
@@ -22,88 +31,139 @@ public class Server {
     }
 
 
-
-
     private void init() throws IOException {
 
-    String welcomeMsg = "--------------- Welcome to Rock, Paper, " +
-            "Scissors, Lizard, Spock -----------------";
 
         serverSocket = new ServerSocket(DEFAULT_PORT);
 
-        int cycle = 0;
-        int player1Wins = 0;
-        int player2Wins = 0;
-        int draw = 0;
 
-        Socket socket1 = serverSocket.accept();
-        Socket socket2 = serverSocket.accept();
+        while (true) {
 
-        player1 = new Player(rounds, socket1);
-        player2 = new Player(rounds, socket2);
-
-        new Thread(player1).start();
-        new Thread(player2).start();
-
-        broadCast(welcomeMsg);
-
-        while (cycle < 5) {
-            Game.GameHand handPlayer1;
-            Game.GameHand handPlayer2;
+            Socket playerSocket = serverSocket.accept();
             System.out.println("\n Ok and running on port " + serverSocket.getLocalPort() + "...");
 
-            handPlayer1 = Game.GameHand.values()[player1.getHand()];
-            System.out.println("Value 1 generated");
+            player = new Player(ROUNDS, this, playerSocket);
+            playersList.add(player);
 
-            handPlayer2 = Game.GameHand.values()[player2.getHand()];
-            System.out.println("Value 2 generated");
+            ExecutorService executor = Executors.newCachedThreadPool();
+            executor.submit(player);
 
-            cycle++;
-            int winner = Game.compareHands(handPlayer1, handPlayer2);
-
-            if (winner == 0){
-                draw++;
-                broadCast("Draw!");
-                continue;
-            }
-
-            if (winner == 1){
-                player1Wins++;
-                broadCast("Player 1 beats player 2");
-                continue;
-            }
-
-            if (winner == 2){
-                player2Wins++;
-                broadCast("Player 2 beats player 1");
-            }
+            System.out.println("connection established in:" + serverSocket.getLocalPort());
 
         }
 
-        if (draw>player1Wins && draw>player2Wins){
-            broadCast("Is a TIE!");
+    }
+
+    private void broadCast(String message) throws IOException {
+        synchronized (playersList) {
+            for (Player player : playersList) {
+                player.sendMessage(message);
+            }
         }
 
-        if (player1Wins > player2Wins){
-            broadCast(player1.getName()+" wins!!");
+    }
+
+    private void sendMessageToPlayer(Player player, String message) throws IOException {
+        player.sendMessage(message);
+    }
+
+    int i = 0;
+
+    public void handStorer(Player player, int value) throws IOException {
+        players[i] = player;
+        values[i] = value;
+        i++;
+
+        if(players.length == 2 && values.length == 2){
+            multiCompareHands();
+        }
+    }
+
+    public void multiCompareHands() throws IOException {
+
+
+       /* if (value == 0) {
+
+            if (player1Wins > player2Wins) {
+                broadCast("\nOverall winner is: " + player.getName());
+                return;
+            }
+
+            if (player1Wins < player2Wins) {
+                broadCast("\nOverall winner is: " + player.getName());
+                return;
+            }
+        }*/
+
+        Game.GameHand handPlayer1;
+        Game.GameHand handPlayer2;
+
+
+
+        handPlayer1 = Game.GameHand.values()[values[0]];
+
+        handPlayer2 = Game.GameHand.values()[values[1]];
+        int winner = Game.compareHands(handPlayer1, handPlayer2);
+
+        if (winner == 1) {
+            player1Wins++;
+            sendMessageToPlayer(players[0], "\n" + players[0].getName() + " beats computer\n");
         }
 
-        broadCast(player2.getName()+" wins!!");
+        if (winner == 2) {
+            player2Wins++;
+            sendMessageToPlayer(players[1], "\n beats " + players[1].getName() + "\n");
+        }
 
+        if (winner == 3) {
+            sendMessageToPlayer(player, "\nTie!\n");
+        }
+
+        i = 0;
 
     }
 
-    private void sendMessage(String message, Socket playerSocket) throws IOException {
-        BufferedWriter writer = new BufferedWriter(
-                new OutputStreamWriter(playerSocket.getOutputStream()));
-        writer.write(message);
-        writer.flush();
-    }
 
-    private void broadCast(String message){
-        sendMessage(message, player1.getSocket);
-        sendMessage(message, player2.getSocket);
-    }
+    public void singleCompareHands(int value) throws IOException {
 
+        if (value == 0) {
+
+            if (player1Wins > player2Wins) {
+                broadCast("\nOverall winner is: " + player.getName());
+                return;
+            }
+
+            if (player1Wins < player2Wins) {
+                broadCast("\nOverall winner is: " + player.getName());
+                return;
+            }
+        }
+
+        Game.GameHand handPlayer1;
+        Game.GameHand handPlayer2;
+
+        handPlayer1 = Game.GameHand.values()[value - 1];
+        int random = (int) (Math.random() * Game.GameHand.values().length);
+        handPlayer2 = Game.GameHand.values()[random];
+        int winner = Game.compareHands(handPlayer1, handPlayer2);
+
+        if (winner == 1) {
+            player1Wins++;
+            sendMessageToPlayer(player, "\n" + player.getName() + " beats computer\n");
+        }
+
+        if (winner == 2) {
+            player2Wins++;
+            sendMessageToPlayer(player, "\nComputer beats " + player.getName() + "\n");
+        }
+
+        if (winner == 3) {
+            sendMessageToPlayer(player, "\nTie!\n");
+        }
+
+    }
 
 }
+
+
+
