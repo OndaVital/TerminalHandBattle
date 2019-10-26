@@ -39,8 +39,8 @@ public class Server {
         Socket socket1 = serverSocket.accept();
         Socket socket2 = serverSocket.accept();
 
-        player1 = new Player("Player-1", rounds, socket1);
-        player2 = new Player("Player-2", rounds, socket2);
+        player1 = new Player(rounds, socket1);
+        player2 = new Player(rounds, socket2);
 
         new Thread(player1).start();
         new Thread(player2).start();
@@ -52,10 +52,10 @@ public class Server {
             Game.GameHand handPlayer2;
             System.out.println("\n Ok and running on port " + serverSocket.getLocalPort() + "...");
 
-            handPlayer1 = player1.getHand();
+            handPlayer1 = Game.GameHand.values()[player1.getHand()];
             System.out.println("Value 1 generated");
 
-            handPlayer2 = player2.getHand();
+            handPlayer2 = Game.GameHand.values()[player2.getHand()];
             System.out.println("Value 2 generated");
 
             cycle++;
@@ -85,10 +85,10 @@ public class Server {
         }
 
         if (player1Wins > player2Wins){
-            broadCast( player1.getName()+" wins!!");
+            broadCast(player1.getName()+" wins!!");
         }
 
-        broadCast( player2.getName()+" wins!!");
+        broadCast(player2.getName()+" wins!!");
 
 
     }
