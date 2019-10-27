@@ -20,9 +20,11 @@ public class Server {
     private static int DEFAULT_PORT = 9090;
     private Socket socket1;
     private Socket socket2;
-    private final List<Player> playersList = Collections.synchronizedList(new ArrayList<>());
+    private final List<String> playersList = Collections.synchronizedList(new ArrayList<>());
+    private final List<Player> al = Collections.synchronizedList(new ArrayList<>());
     private Player[] players;
     private int[] values;
+    private Map<String, Integer> hands = Collections.synchronizedMap(new HashMap<>());
 
     public static void main(String[] args) throws IOException {
 
@@ -43,7 +45,7 @@ public class Server {
             System.out.println("\n Ok and running on port " + serverSocket.getLocalPort() + "...");
 
             player = new Player(ROUNDS, this, playerSocket);
-            playersList.add(player);
+            al.add(player);
 
             ExecutorService executor = Executors.newCachedThreadPool();
             executor.submit(player);
@@ -55,8 +57,8 @@ public class Server {
     }
 
     private void broadCast(String message) throws IOException {
-        synchronized (playersList) {
-            for (Player player : playersList) {
+        synchronized (al) {
+            for (Player player : al) {
                 player.sendMessage(message);
             }
         }
@@ -67,20 +69,26 @@ public class Server {
         player.sendMessage(message);
     }
 
-    int i = 0;
 
-    public void handStorer(Player player, int value) throws IOException {
-        players[i] = player;
-        values[i] = value;
-        i++;
+    public synchronized void handStore(String player, int value){
+        hands.put(player,value);
+        System.out.println(hands.keySet().toString());
 
-        if(players.length == 2 && values.length == 2){
-            multiCompareHands();
+        if (playersList.contains(player)) {
+            int index = playersList.indexOf(player);
+            playersList.add(index, player);
+        }
+
+        if (hands.size()==2){
+            try {
+                multiCompareHands();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    public void multiCompareHands() throws IOException {
-
+    public synchronized void multiCompareHands() throws IOException {
 
        /* if (value == 0) {
 
@@ -98,29 +106,27 @@ public class Server {
         Game.GameHand handPlayer1;
         Game.GameHand handPlayer2;
 
+        String player1 = playersList.get(0);
+        String player2 = playersList.get(1);
 
+        handPlayer1 = Game.GameHand.values()[hands.get(player1)];
+        handPlayer2 = Game.GameHand.values()[hands.get(player2)];
 
-        handPlayer1 = Game.GameHand.values()[values[0]];
-
-        handPlayer2 = Game.GameHand.values()[values[1]];
         int winner = Game.compareHands(handPlayer1, handPlayer2);
 
         if (winner == 1) {
             player1Wins++;
-            sendMessageToPlayer(players[0], "\n" + players[0].getName() + " beats computer\n");
+            sendMessageToPlayer(al.get(0), "\n" + player1 + " beats "+player2+"\n");
         }
 
         if (winner == 2) {
             player2Wins++;
-            sendMessageToPlayer(players[1], "\n beats " + players[1].getName() + "\n");
+            sendMessageToPlayer(al.get(1), "\n" +player2+" beats " + player1+ "\n");
         }
 
         if (winner == 3) {
-            sendMessageToPlayer(player, "\nTie!\n");
+            broadCast("\nTie!\n");
         }
-
-        i = 0;
-
     }
 
 
@@ -162,7 +168,6 @@ public class Server {
         }
 
     }
-
 }
 
 

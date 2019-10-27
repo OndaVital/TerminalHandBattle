@@ -5,6 +5,7 @@ import org.academiadecodigo.bootcamp.scanners.menu.MenuInputScanner;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class Player implements Runnable {
 
@@ -18,9 +19,7 @@ public class Player implements Runnable {
     private BufferedReader reader;
 
 
-
     public Player(int rounds, Server server, Socket socket) throws IOException {
-
         this.rounds = rounds;
         this.server = server;
         this.socket = socket;
@@ -72,14 +71,15 @@ public class Player implements Runnable {
     }
 
 
-    private void giveMultiHand() throws IOException {
+    private synchronized void giveMultiHand() throws InterruptedException {
 
         String[] gameMultiHands = {"Paper", "Rock", "Scissors", "Lizard", "Spock"};
         MenuInputScanner hands = new MenuInputScanner(gameMultiHands);
+        //notify();
         hands.setMessage("Pick a hand!");
-
+        //wait();
         int value = prompt.getUserInput(hands);
-        server.handStorer(this, value);
+        server.handStore(this.name, value);
 
     }
 
@@ -135,17 +135,14 @@ public class Player implements Runnable {
         }
 
         if (menuAnswer == 2) {
-
-            try {
-
-                int cycles = 0;
-
-                while (cycles<rounds) {
+            int cycles = 0;
+            while (cycles<rounds){
+                try {
                     giveMultiHand();
-                    cycles++;
+                    //notify();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
             }
         }
         if (menuAnswer == 3) {
