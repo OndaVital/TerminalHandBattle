@@ -57,35 +57,24 @@ public class Server {
         player.sendMessage(message);
     }
 
-    private boolean enoughPlayers(){
-        return hands.size() == 2;
-    }
+    void handStore(String player, int value) throws IOException {
 
-    synchronized void handStore(String player, int value){
-        hands.put(player,value);
-
-        /*if (playersList.contains(player)) {
-            int index = playersList.indexOf(player);
-            playersList.add(index, player);
-            if (enoughPlayers()){
-                try {
-                    multiCompareHands();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }*/
+        hands.put(player, value);
 
         playersList.add(player);
 
-        if (enoughPlayers()){
+        if (hands.size() < 2) {
+
             try {
-                notifyAll();
-                multiCompareHands();
-            } catch (IOException e) {
+                System.out.println(hands.keySet());
+                wait();
+
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
+
+        multiCompareHands();
     }
 
     private void multiCompareHands() throws IOException {
@@ -115,14 +104,14 @@ public class Server {
 
         if (winner == 1) {
             player1Wins++;
-            broadCast("\n" + player1 + " beats "+player2+"\n");
+            broadCast("\n" + player1 + " beats " + player2 + "\n");
             clearLists();
             notifyAll();
         }
 
         if (winner == 2) {
             player2Wins++;
-            broadCast("\n" +player2+" beats " + player1+ "\n");
+            broadCast("\n" + player2 + " beats " + player1 + "\n");
             clearLists();
             notifyAll();
         }
@@ -140,16 +129,16 @@ public class Server {
         if (value == 0) {
 
             if (player1Wins > player2Wins) {
-                sendMessageToPlayer(player,"\nOverall winner is " + player.getName()+"!");
+                sendMessageToPlayer(player, "\nOverall winner is " + player.getName() + "!");
                 return;
             }
 
             if (player1Wins < player2Wins) {
-                sendMessageToPlayer(player,"\nOverall winner is the computer!");
+                sendMessageToPlayer(player, "\nOverall winner is the computer!");
                 return;
             }
 
-            sendMessageToPlayer(player,"\n The game was a tie!");
+            sendMessageToPlayer(player, "\n The game was a tie!");
         }
 
         Game.GameHand handPlayer1;
@@ -176,13 +165,13 @@ public class Server {
 
         if (winner == 3) {
 
-            sendMessageToPlayer(player,"Computer hand was: " + handPlayer2);
+            sendMessageToPlayer(player, "Computer hand was: " + handPlayer2);
             sendMessageToPlayer(player, "\nTie!\n");
         }
 
     }
 
-    private void clearLists(){
+    private void clearLists() {
         hands.clear();
         playersList.clear();
     }

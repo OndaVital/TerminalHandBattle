@@ -65,15 +65,19 @@ public class Player implements Runnable {
     }
 
 
-    private synchronized void giveMultiHand() {
+    private void giveMultiHand() throws InterruptedException, IOException {
 
-        String[] gameMultiHands = {"Paper", "Rock", "Scissors", "Lizard", "Spock"};
-        MenuInputScanner hands = new MenuInputScanner(gameMultiHands);
-        hands.setMessage("Pick a hand!");
-        int value = prompt.getUserInput(hands);
-        server.handStore(this.name, value);
-        notifyAll();
+        synchronized (server) {
+            String[] gameMultiHands = {"Paper", "Rock", "Scissors", "Lizard", "Spock"};
+            MenuInputScanner hands = new MenuInputScanner(gameMultiHands);
+            hands.setMessage("Pick a hand!");
+            int value = prompt.getUserInput(hands);
+            System.out.println(value);
 
+            server.handStore(this.name, value);
+            notifyAll();
+        }
+        //wait();
     }
 
     private void instructions() {
@@ -117,20 +121,19 @@ public class Player implements Runnable {
 
             if (menuAnswer == 2) {
                 int cycles = 0;
-                while (cycles < rounds) {
+                for (int i = 0; i < rounds; i++) {
                     giveMultiHand();
-                    cycles++;
-                    System.out.println(cycles);
-                    //notifyAll();
-                    System.out.println(cycles + "asdasd");
+                    //cycles++;
+                    System.out.println("estou no multiplayer preso!" + i);
                 }
+                menu();
             }
 
             if (menuAnswer == 3) {
                 instructions();
             }
 
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
     }
