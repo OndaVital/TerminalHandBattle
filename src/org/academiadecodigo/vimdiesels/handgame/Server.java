@@ -20,11 +20,9 @@ public class Server {
     private Map<String, Integer> hands = Collections.synchronizedMap(new HashMap<>());
 
     public static void main(String[] args) throws IOException {
-
         Server server = new Server();
         server.init();
     }
-
 
     private void init() throws IOException {
 
@@ -57,7 +55,7 @@ public class Server {
         player.sendMessage(message);
     }
 
-   synchronized void  handStore(String player, int value) throws IOException, InterruptedException {
+    synchronized void handStore(String player, int value) throws IOException {
 
         hands.put(player, value);
 
@@ -73,14 +71,11 @@ public class Server {
                 e.printStackTrace();
             }
         }
-
         multiCompareHands();
-        notifyAll();
-
     }
 
     private void multiCompareHands() throws IOException {
-       if (player1Wins > 3 || player2Wins > 3) {
+        if (player1Wins > 3 || player2Wins > 3) {
 
             if (player1Wins > player2Wins) {
                 broadCast("\nOverall winner is: " + player.getName());
@@ -131,18 +126,18 @@ public class Server {
         if (value == 0) {
 
             if (player1Wins > player2Wins) {
-                sendMessageToPlayer(player,"\nOverall winner is " + player.getName()+"!");
+                sendMessageToPlayer(player, "\nOverall winner is " + player.getName() + "!");
                 sendMessageToPlayer(player, TerminalStrings.gameOverBanner());
                 return;
             }
 
             if (player1Wins < player2Wins) {
-                sendMessageToPlayer(player,"\nOverall winner is the computer!");
+                sendMessageToPlayer(player, "\nOverall winner is the computer!");
                 sendMessageToPlayer(player, TerminalStrings.gameOverBanner());
                 return;
             }
 
-            sendMessageToPlayer(player,"\n The game was a tie!");
+            sendMessageToPlayer(player, "\n The game was a tie!");
             sendMessageToPlayer(player, TerminalStrings.gameOverBanner());
         }
 
@@ -155,25 +150,21 @@ public class Server {
         int winner = Game.compareHands(handPlayer1, handPlayer2);
 
         if (winner == 1) {
-
             player1Wins++;
             sendMessageToPlayer(player, "Computer chose: " + handPlayer2);
             sendMessageToPlayer(player, "\n" + player.getName() + " beats computer!\n");
         }
 
         if (winner == 2) {
-
             player2Wins++;
             sendMessageToPlayer(player, "Computer chose: " + handPlayer2);
             sendMessageToPlayer(player, "\nComputer beats " + player.getName() + "!\n");
         }
 
         if (winner == 3) {
-
             sendMessageToPlayer(player, "Computer hand was: " + handPlayer2);
             sendMessageToPlayer(player, "\nTie!\n");
         }
-
     }
 
     private void clearLists() {
