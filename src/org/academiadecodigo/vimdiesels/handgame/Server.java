@@ -70,8 +70,8 @@ public class Server {
     }
 
 
-    public synchronized void handStore(String player, int value){
-        hands.put(player,value);
+    public synchronized void handStore(String player, int value) {
+        hands.put(player, value);
         System.out.println(hands.keySet().toString());
 
         if (playersList.contains(player)) {
@@ -79,7 +79,7 @@ public class Server {
             playersList.add(index, player);
         }
 
-        if (hands.size()==2){
+        if (hands.size() == 2) {
             try {
                 multiCompareHands();
             } catch (IOException e) {
@@ -116,12 +116,12 @@ public class Server {
 
         if (winner == 1) {
             player1Wins++;
-            sendMessageToPlayer(al.get(0), "\n" + player1 + " beats "+player2+"\n");
+            sendMessageToPlayer(al.get(0), "\n" + player1 + " beats " + player2 + "\n");
         }
 
         if (winner == 2) {
             player2Wins++;
-            sendMessageToPlayer(al.get(1), "\n" +player2+" beats " + player1+ "\n");
+            sendMessageToPlayer(al.get(1), "\n" + player2 + " beats " + player1 + "\n");
         }
 
         if (winner == 3) {
@@ -135,14 +135,18 @@ public class Server {
         if (value == 0) {
 
             if (player1Wins > player2Wins) {
-                broadCast("\nOverall winner is: " + player.getName());
+
+                sendMessageToPlayer(player,"\nOverall winner is " + player.getName() + "!");
                 return;
             }
 
             if (player1Wins < player2Wins) {
-                broadCast("\nOverall winner is: " + player.getName());
+
+                sendMessageToPlayer(player,"\nOverall winner is the computer!");
                 return;
             }
+
+            sendMessageToPlayer(player, "\n The game was a tie!");
         }
 
         Game.GameHand handPlayer1;
@@ -154,16 +158,22 @@ public class Server {
         int winner = Game.compareHands(handPlayer1, handPlayer2);
 
         if (winner == 1) {
+
             player1Wins++;
-            sendMessageToPlayer(player, "\n" + player.getName() + " beats computer\n");
+            sendMessageToPlayer(player, "Computer chose: " + handPlayer2);
+            sendMessageToPlayer(player, "\n" + player.getName() + " beats computer!\n");
         }
 
         if (winner == 2) {
+
             player2Wins++;
-            sendMessageToPlayer(player, "\nComputer beats " + player.getName() + "\n");
+            sendMessageToPlayer(player, "Computer chose: " + handPlayer2);
+            sendMessageToPlayer(player, "\nComputer beats " + player.getName() + "!\n");
         }
 
         if (winner == 3) {
+
+            sendMessageToPlayer(player,"Computer hand was: " + handPlayer2);
             sendMessageToPlayer(player, "\nTie!\n");
         }
 
