@@ -5,7 +5,6 @@ import org.academiadecodigo.bootcamp.scanners.menu.MenuInputScanner;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.ArrayList;
 
 public class Player implements Runnable {
 
@@ -71,15 +70,14 @@ public class Player implements Runnable {
     }
 
 
-    private synchronized void giveMultiHand() throws InterruptedException {
+    private synchronized void giveMultiHand() {
 
         String[] gameMultiHands = {"Paper", "Rock", "Scissors", "Lizard", "Spock"};
         MenuInputScanner hands = new MenuInputScanner(gameMultiHands);
-        //notify();
         hands.setMessage("Pick a hand!");
-        //wait();
         int value = prompt.getUserInput(hands);
         server.handStore(this.name, value);
+        notifyAll();
 
     }
 
@@ -105,7 +103,7 @@ public class Player implements Runnable {
     }
 
     @Override
-    public void run() {
+    public synchronized void run() {
 
 
         try {
@@ -120,37 +118,42 @@ public class Player implements Runnable {
 
         if (menuAnswer == 1) {
 
-            try {
 
-                int cycles = 0;
+            int cycles = 0;
 
-                while (cycles<rounds) {
+            while (cycles < rounds) {
+
+                try {
                     giveSingle();
                     cycles++;
+
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
+
+            }
+            try {
                 server.singleCompareHands(0);
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
         }
 
         if (menuAnswer == 2) {
             int cycles = 0;
-            while (cycles<rounds){
-                try {
-                    giveMultiHand();
-                    //notify();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+            while (cycles < rounds) {
+                giveMultiHand();
+                cycles++;
+                System.out.println(cycles);
+                //notifyAll();
+                System.out.println(cycles + "asdasd");
             }
         }
         if (menuAnswer == 3) {
             instructions();
         }
     }
-
-
 
 
 }
