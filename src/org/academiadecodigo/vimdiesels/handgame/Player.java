@@ -32,11 +32,6 @@ public class Player implements Runnable {
         return this.name;
     }
 
-    private void setName(String name) {
-
-        this.name = name;
-    }
-
     private void chooseName() throws IOException {
 
         String welcomeMsg = "\n--------------- Welcome to Rock, Paper, " +
@@ -105,53 +100,38 @@ public class Player implements Runnable {
     @Override
     public synchronized void run() {
 
-
         try {
             chooseName();
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            int menuAnswer = menu();
 
+            if (menuAnswer == 1) {
+                int cycles = 0;
+                while (cycles < rounds) {
 
-        int menuAnswer = menu();
-
-        if (menuAnswer == 1) {
-
-
-            int cycles = 0;
-
-            while (cycles < rounds) {
-
-                try {
                     giveSingle();
                     cycles++;
-
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
-
-            }
-            try {
                 server.singleCompareHands(0);
-            } catch (IOException e) {
-                e.printStackTrace();
             }
 
-        }
-
-        if (menuAnswer == 2) {
-            int cycles = 0;
-            while (cycles < rounds) {
-                giveMultiHand();
-                cycles++;
-                System.out.println(cycles);
-                //notifyAll();
-                System.out.println(cycles + "asdasd");
+            if (menuAnswer == 2) {
+                int cycles = 0;
+                while (cycles < rounds) {
+                    giveMultiHand();
+                    cycles++;
+                    System.out.println(cycles);
+                    //notifyAll();
+                    System.out.println(cycles + "asdasd");
+                }
             }
-        }
-        if (menuAnswer == 3) {
-            instructions();
+
+            if (menuAnswer == 3) {
+                instructions();
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
