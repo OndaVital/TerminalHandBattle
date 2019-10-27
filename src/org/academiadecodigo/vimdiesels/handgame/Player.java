@@ -34,8 +34,8 @@ public class Player implements Runnable {
 
     private void chooseName() throws IOException {
 
-        String welcomeMsg = "\n--------------- Welcome to Rock, Paper, " +
-                "Scissors, Lizard, Spock -----------------\n";
+
+        String welcomeMsg = TerminalStrings.introBanner();
         String tellName = "Tell me your name: ";
 
         writer.println(welcomeMsg);
@@ -80,15 +80,23 @@ public class Player implements Runnable {
         //wait();
     }
 
-    private int instructions() {
+    private void instructions() {
 
-        String instructions = "";
+        String instructions = TerminalColors.ANSI_YELLOW.getAnsi() + "Greetings!\n" +
+                "Welcome to the TerminalHandBattle game! In order to play, follow the instructions below.\n\n" +
+                TerminalColors.ANSI_WHITE.getAnsi() + "1. Choose one of either game modes, singleplayer or multiplayer.\n" +
+                TerminalColors.ANSI_WHITE.getAnsi() + "2. Once in the game, press the number that correspondes to the hand that you want to play.\n" +
+                TerminalColors.ANSI_WHITE.getAnsi() + "3. Game rules are:\n" +
+                TerminalColors.ANSI_GREEN.getAnsi() + "\t -> Scissors cuts Paper \n\t -> Paper covers Rock \n\t -> Rock crushes Lizard \n\t " +
+                "-> Lizard poisons Spock \n\t -> Spock smashes Scissors \n\t -> Scissors decapitates Lizard \n\t -> Lizard eats Paper \n\t " +
+                "-> Paper disproves Spock \n\t -> Spock vaporizes Rock\n\t -> Rock crushes Scissors \n" +
+                TerminalColors.ANSI_WHITE.getAnsi() + "4. At the end, you’ll find out who is the winner!" +
+                TerminalColors.ANSI_RESET.getAnsi();
+
         String[] menuInstructions = {"Go back."};
         MenuInputScanner menu = new MenuInputScanner(menuInstructions);
         menu.setMessage(instructions);
         int goBack = prompt.getUserInput(menu);
-
-      return goBack;
     }
 
 
