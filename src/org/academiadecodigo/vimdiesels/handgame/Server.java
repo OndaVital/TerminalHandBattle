@@ -33,7 +33,7 @@ public class Server {
         while (true) {
 
             Socket playerSocket = serverSocket.accept();
-            System.out.println("\n Ok and running on port " + serverSocket.getLocalPort() + "...");
+            System.out.println("\nOk and running on port " + serverSocket.getLocalPort() + "...");
 
             player = new Player(ROUNDS, this, playerSocket);
             al.add(player);
@@ -142,15 +142,18 @@ public class Server {
 
             if (player1Wins > player2Wins) {
                 sendMessageToPlayer(player,"\nOverall winner is " + player.getName()+"!");
+                sendMessageToPlayer(player, TerminalStrings.gameOverBanner());
                 return;
             }
 
             if (player1Wins < player2Wins) {
                 sendMessageToPlayer(player,"\nOverall winner is the computer!");
+                sendMessageToPlayer(player, TerminalStrings.gameOverBanner());
                 return;
             }
 
             sendMessageToPlayer(player,"\n The game was a tie!");
+            sendMessageToPlayer(player, TerminalStrings.gameOverBanner());
         }
 
         Game.GameHand handPlayer1;

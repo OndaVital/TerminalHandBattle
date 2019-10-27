@@ -2,13 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="498f301c-1e63-46aa-af8b-abe0c66d1464" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/academiadecodigo/vimdiesels/handgame/TerminalColors.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/org/academiadecodigo/vimdiesels/handgame/TerminalStrings.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TerminalHandBattle/org/academiadecodigo/vimdiesels/handgame/Game$1.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TerminalHandBattle/org/academiadecodigo/vimdiesels/handgame/Game$GameHand.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TerminalHandBattle/org/academiadecodigo/vimdiesels/handgame/Game.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TerminalHandBattle/org/academiadecodigo/vimdiesels/handgame/Player.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/TerminalHandBattle/org/academiadecodigo/vimdiesels/handgame/Server.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/TerminalHandBattle/org/academiadecodigo/vimdiesels/handgame/Player.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/TerminalHandBattle/org/academiadecodigo/vimdiesels/handgame/Player.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/org/academiadecodigo/vimdiesels/handgame/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/academiadecodigo/vimdiesels/handgame/Player.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/org/academiadecodigo/vimdiesels/handgame/Server.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/org/academiadecodigo/vimdiesels/handgame/Server.java" afterDir="false" />
     </list>
@@ -68,33 +66,35 @@
     <session id="-1200110940">
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="java" value="2" />
+          <entry key="java" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="JAVA" value="2" />
+          <entry key="JAVA" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="170" />
+          <entry key="dummy" value="15" />
+          <entry key="java" value="759" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="170" />
+          <entry key="JAVA" value="759" />
+          <entry key="PLAIN_TEXT" value="15" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/org/academiadecodigo/vimdiesels/handgame/Server.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="217">
-              <caret line="91" column="39" selection-start-line="91" selection-start-column="39" selection-end-line="91" selection-end-column="39" />
+            <state relative-caret-position="450">
+              <caret line="35" column="34" selection-start-line="35" selection-start-column="34" selection-end-line="35" selection-end-column="34" />
               <folding>
                 <element signature="e#1828#1829#0" expanded="true" />
                 <element signature="e#1868#1869#0" expanded="true" />
@@ -106,8 +106,32 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/org/academiadecodigo/vimdiesels/handgame/Player.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1283">
-              <caret line="42" column="61" selection-start-line="42" selection-start-column="61" selection-end-line="42" selection-end-column="61" />
+            <state relative-caret-position="163">
+              <caret line="50" column="5" lean-forward="true" selection-start-line="50" selection-start-column="5" selection-end-line="50" selection-end-column="5" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/org/academiadecodigo/vimdiesels/handgame/TerminalStrings.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="510">
+              <caret line="34" column="143" selection-start-line="34" selection-start-column="143" selection-end-line="34" selection-end-column="143" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/org/academiadecodigo/vimdiesels/handgame/TerminalColors.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="37" lean-forward="true" selection-start-column="37" selection-end-column="37" />
+              <folding>
+                <element signature="e#413#414#0" expanded="true" />
+                <element signature="e#445#446#0" expanded="true" />
+                <element signature="e#475#476#0" expanded="true" />
+                <element signature="e#501#502#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -115,7 +139,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/org/academiadecodigo/vimdiesels/handgame/Game.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
+            <state relative-caret-position="-36">
               <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
             </state>
           </provider>
@@ -137,8 +161,10 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/org/academiadecodigo/vimdiesels/handgame/Game.java" />
-        <option value="$PROJECT_DIR$/src/org/academiadecodigo/vimdiesels/handgame/Player.java" />
         <option value="$PROJECT_DIR$/src/org/academiadecodigo/vimdiesels/handgame2/Lobby.java" />
+        <option value="$PROJECT_DIR$/src/org/academiadecodigo/vimdiesels/handgame/TerminalColors.java" />
+        <option value="$PROJECT_DIR$/src/org/academiadecodigo/vimdiesels/handgame/TerminalStrings.java" />
+        <option value="$PROJECT_DIR$/src/org/academiadecodigo/vimdiesels/handgame/Player.java" />
         <option value="$PROJECT_DIR$/src/org/academiadecodigo/vimdiesels/handgame/Server.java" />
       </list>
     </option>
@@ -156,9 +182,9 @@
     </treeState>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="62" />
+    <option name="x" value="3" />
     <option name="y" value="23" />
-    <option name="width" value="1339" />
+    <option name="width" value="1040" />
     <option name="height" value="1023" />
   </component>
   <component name="ProjectLevelVcsManager">
@@ -228,7 +254,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1572193559103" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1572210888186" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="settings.editor.selected.configurable" value="preferences.keymap" />
@@ -280,13 +306,13 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="38520000" />
+    <option name="totallyTimeSpent" value="48304000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="62" y="23" width="1339" height="1023" extended-state="0" />
+    <frame x="3" y="23" width="1040" height="1023" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.15265998" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21242484" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -295,14 +321,14 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32943925" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32975295" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.4996145" visible="true" weight="0.32975295" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Terminal" order="8" />
-      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5003855" side_tool="true" weight="0.32975295" />
       <window_info anchor="bottom" id="Version Control" order="10" />
       <window_info anchor="bottom" id="Messages" order="11" weight="0.32943925" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
@@ -313,7 +339,7 @@
       <window_info anchor="right" id="Theme Preview" order="5" />
       <window_info anchor="right" id="Palette&#9;" order="6" />
       <window_info anchor="right" id="Database" order="7" />
-      <window_info anchor="right" id="Maven Projects" order="8" weight="0.3296146" />
+      <window_info anchor="right" id="Maven Projects" order="8" weight="0.32944345" />
     </layout>
     <layout-to-restore>
       <window_info id="Image Layers" order="0" />
@@ -385,26 +411,46 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/academiadecodigo/vimdiesels/handgame/Game.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
+        <state relative-caret-position="-36">
           <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/academiadecodigo/vimdiesels/handgame/Player.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1283">
-          <caret line="42" column="61" selection-start-line="42" selection-start-column="61" selection-end-line="42" selection-end-column="61" />
+        <state relative-caret-position="163">
+          <caret line="50" column="5" lean-forward="true" selection-start-line="50" selection-start-column="5" selection-end-line="50" selection-end-column="5" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/org/academiadecodigo/vimdiesels/handgame/Server.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="217">
-          <caret line="91" column="39" selection-start-line="91" selection-start-column="39" selection-end-line="91" selection-end-column="39" />
+        <state relative-caret-position="450">
+          <caret line="35" column="34" selection-start-line="35" selection-start-column="34" selection-end-line="35" selection-end-column="34" />
           <folding>
             <element signature="e#1828#1829#0" expanded="true" />
             <element signature="e#1868#1869#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/academiadecodigo/vimdiesels/handgame/TerminalColors.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="37" lean-forward="true" selection-start-column="37" selection-end-column="37" />
+          <folding>
+            <element signature="e#413#414#0" expanded="true" />
+            <element signature="e#445#446#0" expanded="true" />
+            <element signature="e#475#476#0" expanded="true" />
+            <element signature="e#501#502#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/org/academiadecodigo/vimdiesels/handgame/TerminalStrings.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="510">
+          <caret line="34" column="143" selection-start-line="34" selection-start-column="143" selection-end-line="34" selection-end-column="143" />
         </state>
       </provider>
     </entry>
