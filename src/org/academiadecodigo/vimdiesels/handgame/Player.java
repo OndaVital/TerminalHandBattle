@@ -65,7 +65,7 @@ public class Player implements Runnable {
     }
 
 
-    private void giveMultiHand() throws InterruptedException, IOException {
+    public void giveMultiHand() throws InterruptedException, IOException {
 
         synchronized (server) {
             String[] gameMultiHands = {"Paper", "Rock", "Scissors", "Lizard", "Spock"};
@@ -80,7 +80,7 @@ public class Player implements Runnable {
         //wait();
     }
 
-    private void instructions() {
+    private int instructions() {
 
         String instructions = "";
         String[] menuInstructions = {"Go back."};
@@ -88,9 +88,7 @@ public class Player implements Runnable {
         menu.setMessage(instructions);
         int goBack = prompt.getUserInput(menu);
 
-        if (goBack == 1) {
-            menu();
-        }
+      return goBack;
     }
 
 
@@ -101,12 +99,13 @@ public class Player implements Runnable {
         writer.flush();
     }
 
+    int cycle = 0;
     @Override
     public synchronized void run() {
-
         try {
-            chooseName();
-
+            if (cycle==0) {
+                chooseName();
+            }
             int menuAnswer = menu();
 
             if (menuAnswer == 1) {
@@ -115,22 +114,25 @@ public class Player implements Runnable {
 
                     giveSingle();
                     cycles++;
+
                 }
                 server.singleCompareHands(0);
+                cycle++;
+                run();
             }
 
             if (menuAnswer == 2) {
-                int cycles = 0;
-                for (int i = 0; i < rounds; i++) {
-                    giveMultiHand();
-                    //cycles++;
-                    System.out.println("estou no multiplayer preso!" + i);
-                }
-                menu();
+
+                    while (server.getPlayer1Wins() < 4 || server.getPlayer2Wins() < 4) {
+                        giveMultiHand();
+                        
+                    }
             }
 
             if (menuAnswer == 3) {
                 instructions();
+                cycle++;
+                run();
             }
 
         } catch (IOException | InterruptedException e) {

@@ -57,7 +57,7 @@ public class Server {
         player.sendMessage(message);
     }
 
-    void handStore(String player, int value) throws IOException {
+   synchronized void  handStore(String player, int value) throws IOException, InterruptedException {
 
         hands.put(player, value);
 
@@ -75,10 +75,12 @@ public class Server {
         }
 
         multiCompareHands();
+        notifyAll();
+
     }
 
     private void multiCompareHands() throws IOException {
-       /* if (value == 0) {
+       if (player1Wins > 3 || player2Wins > 3) {
 
             if (player1Wins > player2Wins) {
                 broadCast("\nOverall winner is: " + player.getName());
@@ -89,7 +91,7 @@ public class Server {
                 broadCast("\nOverall winner is: " + player.getName());
                 return;
             }
-        }*/
+        }
 
         Game.GameHand handPlayer1;
         Game.GameHand handPlayer2;
@@ -107,6 +109,7 @@ public class Server {
             broadCast("\n" + player1 + " beats " + player2 + "\n");
             clearLists();
             notifyAll();
+
         }
 
         if (winner == 2) {
@@ -121,7 +124,6 @@ public class Server {
             clearLists();
             notifyAll();
         }
-
     }
 
     void singleCompareHands(int value) throws IOException {
@@ -174,6 +176,14 @@ public class Server {
     private void clearLists() {
         hands.clear();
         playersList.clear();
+    }
+
+    public int getPlayer2Wins() {
+        return player2Wins;
+    }
+
+    public int getPlayer1Wins() {
+        return player1Wins;
     }
 }
 
