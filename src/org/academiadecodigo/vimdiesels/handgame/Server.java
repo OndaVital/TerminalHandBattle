@@ -101,7 +101,8 @@ public class Server {
 
         if (winner == 1) {
             player1Wins++;
-            broadCast("\n" + player1 + " beats " + player2 + "\n");
+            broadCast("\n" + player1 + " beats " + player2 + "!\n");
+            broadCast(TerminalStrings.gameOverBanner());
             clearLists();
             notifyAll();
 
@@ -109,13 +110,15 @@ public class Server {
 
         if (winner == 2) {
             player2Wins++;
-            broadCast("\n" + player2 + " beats " + player1 + "\n");
+            broadCast("\n" + player2 + " beats " + player1 + "!\n");
+            broadCast(TerminalStrings.gameOverBanner());
             clearLists();
             notifyAll();
         }
 
         if (winner == 3) {
             broadCast("\nTie!\n");
+            TerminalStrings.gameOverBanner();
             clearLists();
             notifyAll();
         }
@@ -170,14 +173,6 @@ public class Server {
     private void clearLists() {
         hands.clear();
         playersList.clear();
-    }
-
-    public int getPlayer2Wins() {
-        return player2Wins;
-    }
-
-    public int getPlayer1Wins() {
-        return player1Wins;
     }
 }
 

@@ -121,10 +121,7 @@ public class Player implements Runnable {
             }
 
             if (menuAnswer == 2) {
-                while (server.getPlayer1Wins() < 4
-                        || server.getPlayer2Wins() < 4) {
                     giveMultiHand();
-                }
             }
 
             if (menuAnswer == 3) {
