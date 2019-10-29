@@ -93,6 +93,8 @@ public class Player implements Runnable {
         String[] menuInstructions = {"Go back."};
         MenuInputScanner menu = new MenuInputScanner(menuInstructions);
         menu.setMessage(instructions);
+        int goBack = prompt.getUserInput(menu);
+
     }
 
     public void sendMessage(String message) throws IOException {

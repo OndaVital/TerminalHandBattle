@@ -86,6 +86,11 @@ public class Server {
                 broadCast("\nOverall winner is: " + player.getName());
                 return;
             }
+
+            if (player1Wins==player2Wins){
+                broadCast("\nDRAW!!");
+                return;
+            }
         }
 
         Game.GameHand handPlayer1;
@@ -142,6 +147,7 @@ public class Server {
 
             sendMessageToPlayer(player, "\n The game was a tie!");
             sendMessageToPlayer(player, TerminalStrings.gameOverBanner());
+            return;
         }
 
         Game.GameHand handPlayer1;
